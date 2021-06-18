@@ -44,6 +44,7 @@ kotlin {
             dependencies {
                 implementation("io.ktor:ktor-client-core:1.6.0")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.1")
+                implementation("io.github.dellisd.spatialk:geojson:0.1.1")
             }
         }
         val commonTest by getting {
