@@ -40,9 +40,12 @@ class MainActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                val lines = TmbApiClient(client).getSubwayLines()
+                val apiClient = TmbApiClient(client)
+                val times = apiClient.getTimesFromBusStop(929)
 
-                Log.d("TAG", "$lines")
+                times.forEach {
+                    Log.d("TIMES", "$it")
+                }
             }
         }
     }
