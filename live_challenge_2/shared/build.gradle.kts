@@ -43,7 +43,10 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation("io.ktor:ktor-client-core:1.6.0")
+                implementation("io.ktor:ktor-client-serialization:1.6.0")
+                implementation("io.ktor:ktor-client-logging:1.6.0")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.1")
+                implementation("io.github.dellisd.spatialk:geojson:0.1.1")
             }
         }
         val commonTest by getting {
@@ -59,7 +62,16 @@ kotlin {
                 implementation("junit:junit:4.13.2")
             }
         }
-        val iosMain by getting
+        val iosMain by getting {
+            dependencies {
+                implementation("io.ktor:ktor-client-ios:1.6.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0-native-mt") {
+                    version {
+                        strictly("1.5.0-native-mt")
+                    }
+                }
+            }
+        }
         val iosTest by getting
     }
 }
