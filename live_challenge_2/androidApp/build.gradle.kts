@@ -16,6 +16,7 @@ dependencies {
     implementation("androidx.compose.material:material:1.0.0-beta09")
     implementation("androidx.compose.ui:ui-tooling:1.0.0-beta09")
     implementation("androidx.activity:activity-compose:1.3.0-beta02")
+    implementation("androidx.navigation:navigation-compose:2.4.0-alpha03")
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0-native-mt")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0-native-mt")
