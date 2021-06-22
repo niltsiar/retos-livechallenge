@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
@@ -20,7 +21,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import dev.niltsiar.kmptmbtest.android.ui.screens.Screen
 import dev.niltsiar.kmptmbtest.android.ui.screens.SubwayLinesBody
+import dev.niltsiar.kmptmbtest.android.ui.screens.SubwayMapBody
 import dev.niltsiar.kmptmbtest.android.ui.theme.AppTheme
 import dev.niltsiar.kmptmbtest.remote.TmbApiClient
 import io.ktor.client.HttpClient
@@ -74,7 +77,7 @@ fun KmpTestApp() {
                     screens.forEach { screen ->
                         BottomNavigationItem(
                             label = { Text(screen.name) },
-                            icon = {},
+                            icon = { Icon(imageVector = screen.icon, contentDescription = null) },
                             selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
                             onClick = {
                                 navController.navigate(screen.route) {
@@ -105,7 +108,7 @@ fun KmpTestApp() {
                 }
                 composable(Screen.SubwayPathsScreen.route) {
                     Surface(color = MaterialTheme.colors.secondary) {
-
+                        SubwayMapBody()
                     }
                 }
                 composable(Screen.BusStopsScreen.route) {

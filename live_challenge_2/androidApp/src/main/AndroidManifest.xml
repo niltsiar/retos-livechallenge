@@ -8,6 +8,11 @@
     android:allowBackup="false"
     android:supportsRtl="true"
     android:theme="@style/AppTheme.NoActionBar">
+
+    <meta-data
+      android:name="com.google.android.geo.API_KEY"
+      android:value="${googleMapsKey}" />
+
     <activity
       android:name=".MainActivity"
       android:exported="true">
