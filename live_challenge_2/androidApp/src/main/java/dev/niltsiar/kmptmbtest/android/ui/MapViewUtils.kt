@@ -12,8 +12,6 @@ import androidx.lifecycle.LifecycleEventObserver
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import dev.niltsiar.kmptmbtest.android.R
-import dev.niltsiar.kmptmbtest.android.ui.screens.MaxZoom
-import dev.niltsiar.kmptmbtest.android.ui.screens.MinZoom
 
 /**
  * MapViewUtils extracted from the Crane compose sample [Crane](https://github.com/android/compose-samples/tree/main/Crane)
@@ -54,6 +52,9 @@ private fun getMapLifecycleObserver(mapView: MapView): LifecycleEventObserver =
             else -> throw IllegalStateException()
         }
     }
+
+private const val MinZoom = 2f
+private const val MaxZoom = 20f
 
 fun GoogleMap.setZoom(
     @FloatRange(from = MinZoom.toDouble(), to = MaxZoom.toDouble()) zoom: Float

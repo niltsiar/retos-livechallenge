@@ -8,9 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -21,6 +19,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import dev.niltsiar.kmptmbtest.android.ui.screens.BusStopMapBody
 import dev.niltsiar.kmptmbtest.android.ui.screens.Screen
 import dev.niltsiar.kmptmbtest.android.ui.screens.SubwayLinesBody
 import dev.niltsiar.kmptmbtest.android.ui.screens.SubwayMapBody
@@ -107,14 +106,10 @@ fun KmpTestApp() {
                     SubwayLinesBody()
                 }
                 composable(Screen.SubwayPathsScreen.route) {
-                    Surface(color = MaterialTheme.colors.secondary) {
-                        SubwayMapBody()
-                    }
+                    SubwayMapBody()
                 }
                 composable(Screen.BusStopsScreen.route) {
-                    Surface(color = MaterialTheme.colors.primaryVariant) {
-
-                    }
+                    BusStopMapBody()
                 }
             }
         }

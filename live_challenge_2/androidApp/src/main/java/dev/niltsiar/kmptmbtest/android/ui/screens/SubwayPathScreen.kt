@@ -77,9 +77,7 @@ fun SubwayMapBody() {
             ExpandedDropDownMenu(
                 label = "Subway Lines",
                 items = lines.map { it.properties.lineCode to it.properties.lineName },
-                onClick = { lineId ->
-                    selectedLine = lines.firstOrNull { it.properties.lineCode == lineId }
-                }
+                onClick = onSelectedLine
             )
 
             Spacer(Modifier.height(16.dp))
@@ -172,7 +170,6 @@ private fun MapViewContainer(
             val googleMap = mapView.awaitMap()
             googleMap.setZoom(mapZoom)
             // Move camera to the same place to trigger the zoom update
-            //googleMap.moveCamera(CameraUpdateFactory.newLatLng(cameraPosition))
 
             if (null != selectedLine) {
                 val data = selectedLine.geometry.json
@@ -190,7 +187,7 @@ private fun MapViewContainer(
     }
 }
 
-private fun Geometry.getCoordinates(): List<Position> {
+fun Geometry.getCoordinates(): List<Position> {
     return when (this) {
         is GeometryCollection -> geometries.map { it.getCoordinates() }.flatten()
         is LineString -> coordinates
@@ -202,7 +199,7 @@ private fun Geometry.getCoordinates(): List<Position> {
     }
 }
 
-private fun Geometry.calculateBoundingBox(): LatLngBounds {
+fun Geometry.calculateBoundingBox(): LatLngBounds {
     val builder = LatLngBounds.builder()
     getCoordinates().map { LatLng(it.latitude, it.longitude) }
         .forEach { builder.include(it) }
@@ -210,8 +207,6 @@ private fun Geometry.calculateBoundingBox(): LatLngBounds {
 }
 
 private const val InitialZoom = 12f
-const val MinZoom = 2f
-const val MaxZoom = 20f
 private val InitialLatLng = LatLng(41.6523, -4.7245)
 
 @Preview(showBackground = true)
