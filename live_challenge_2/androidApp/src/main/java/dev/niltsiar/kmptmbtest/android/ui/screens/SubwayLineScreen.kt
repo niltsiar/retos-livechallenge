@@ -17,9 +17,12 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -31,17 +34,14 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun SubwayLinesBody() {
-    val scope = rememberCoroutineScope()
+    var lines by remember { mutableStateOf(emptyList<SubwayLineProperties>()) }
+
+    LaunchedEffect(true) {
+        lines = apiClient.getSubwayLines().map { it.properties }
+    }
 
     Surface(color = MaterialTheme.colors.background) {
         Column(modifier = Modifier.fillMaxHeight()) {
-
-            val (lines, setLines) = remember { mutableStateOf(emptyList<SubwayLineProperties>()) }
-
-            scope.launch {
-                setLines(apiClient.getSubwayLines().map { it.properties })
-            }
-
             SubwayLinesList(lines = lines, modifier = Modifier.fillMaxWidth())
         }
     }
@@ -76,7 +76,7 @@ fun SubwayLineCell(
     isSelected: Boolean = false
 ) {
     val scope = rememberCoroutineScope()
-    val (stations, setStations) = remember { mutableStateOf<List<SubwayStationProperties>>(emptyList()) }
+    var stations by remember { mutableStateOf<List<SubwayStationProperties>>(emptyList()) }
 
     Row(
         modifier = Modifier
@@ -86,10 +86,10 @@ fun SubwayLineCell(
     ) {
         if (isSelected) {
             scope.launch {
-                setStations(apiClient.getStationFromSubwayLine(subwayLine.lineCode).map { it.properties })
+                stations = apiClient.getStationFromSubwayLine(subwayLine.lineCode).map { it.properties }
             }
         } else {
-            setStations(emptyList())
+            stations = emptyList()
         }
         Column {
             Text(text = subwayLine.lineName, modifier = Modifier.padding(16.dp))

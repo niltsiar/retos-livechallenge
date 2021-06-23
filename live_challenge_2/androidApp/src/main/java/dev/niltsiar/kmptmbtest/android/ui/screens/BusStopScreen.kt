@@ -50,20 +50,19 @@ fun BusStopMapBody() {
     var busStops by remember { mutableStateOf(emptyList<Feature<BusStopProperties>>()) }
     var selectedBusStop by remember { mutableStateOf<BusStopInfo?>(null) }
 
-    Surface(color = MaterialTheme.colors.background) {
-
+    val onSelectedLine: (Int) -> Unit = { stopCode ->
         scope.launch {
-            busStops = apiClient.getBusStops()
+            val busStopProperties = busStops.firstOrNull { it.properties.stopCode == stopCode } ?: return@launch
+            val times = apiClient.getTimesFromBusStop(stopCode)
+            selectedBusStop = BusStopInfo(busStopProperties, times)
         }
+    }
 
-        val onSelectedLine: (Int) -> Unit = { stopCode ->
-            scope.launch {
-                val busStopProperties = busStops.firstOrNull { it.properties.stopCode == stopCode } ?: return@launch
-                val times = apiClient.getTimesFromBusStop(stopCode)
-                selectedBusStop = BusStopInfo(busStopProperties, times)
-            }
-        }
+    LaunchedEffect(true) {
+        busStops = apiClient.getBusStops()
+    }
 
+    Surface(color = MaterialTheme.colors.background) {
         Column(
             modifier = Modifier
                 .fillMaxHeight()

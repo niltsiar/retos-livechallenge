@@ -55,20 +55,18 @@ import org.json.JSONObject
 
 @Composable
 fun SubwayMapBody() {
-    val scope = rememberCoroutineScope()
     var lines by remember { mutableStateOf(emptyList<Feature<SubwayLineProperties>>()) }
     var selectedLine by remember { mutableStateOf<Feature<SubwayLineProperties>?>(null) }
 
+    val onSelectedLine: (Int) -> Unit = { lineId ->
+        selectedLine = lines.firstOrNull { it.properties.lineCode == lineId }
+    }
+
+    LaunchedEffect(true) {
+        lines = apiClient.getSubwayLines()
+    }
+
     Surface(color = MaterialTheme.colors.background) {
-
-        scope.launch {
-            lines = apiClient.getSubwayLines()
-        }
-
-        val onSelectedLine: (Int) -> Unit = { lineId ->
-            selectedLine = lines.firstOrNull { it.properties.lineCode == lineId }
-        }
-
         Column(
             modifier = Modifier
                 .fillMaxHeight()
