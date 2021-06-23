@@ -164,9 +164,10 @@ private fun MapViewContainer(
             })
             // Move camera to the same place to trigger the zoom update
             selectedBusStop?.let { busStopInfo ->
-                currentMarker?.remove()
                 val point = busStopInfo.busStopProperties.geometry as? Point ?: return@let
                 val latLng = LatLng(point.coordinates.latitude, point.coordinates.longitude)
+                googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng))
+                currentMarker?.remove()
                 val title =
                     "Stop ${busStopInfo.busStopProperties.properties.stopCode} - ${busStopInfo.busStopProperties.properties.stopName}\n"
                 val times = busStopInfo.busStopTimes.map { "Line ${it.line} / Next bus in ${it.remainingTime} minutes" }
@@ -176,16 +177,13 @@ private fun MapViewContainer(
                     title(title)
                     snippet(times.joinToString("\n"))
                 }
-                googleMap.moveCamera(
-                    CameraUpdateFactory.newLatLng(latLng)
-                )
             }
         }
     }
 }
 
 private const val InitialZoom = 12f
-private val InitialLatLng = LatLng(41.6523, -4.7245)
+private val InitialLatLng = LatLng(41.3851, 2.1734)
 
 @Preview(showBackground = true)
 @Composable

@@ -159,6 +159,8 @@ private fun MapViewContainer(
 
     var zoom by rememberSaveable(map) { mutableStateOf(InitialZoom) }
 
+    var currentLineLayer: GeoJsonLayer? by remember { mutableStateOf(null) }
+
     val padding = with(LocalDensity.current) { 16.dp.roundToPx() }
 
     val coroutineScope = rememberCoroutineScope()
@@ -171,17 +173,18 @@ private fun MapViewContainer(
             googleMap.setZoom(mapZoom)
             // Move camera to the same place to trigger the zoom update
 
-            if (null != selectedLine) {
-                val data = selectedLine.geometry.json
-                val json = JSONObject(data)
-                val layer = GeoJsonLayer(googleMap, json)
-                layer.addLayerToMap()
-                googleMap.moveCamera(
+            selectedLine?.let {
+                googleMap.animateCamera(
                     CameraUpdateFactory.newLatLngBounds(
-                        selectedLine.geometry.calculateBoundingBox(),
-                        padding
+                        selectedLine.geometry.calculateBoundingBox(), padding
                     )
                 )
+                currentLineLayer?.removeLayerFromMap()
+                val data = selectedLine.geometry.json
+                val json = JSONObject(data)
+                currentLineLayer = GeoJsonLayer(googleMap, json).also { layer ->
+                    layer.addLayerToMap()
+                }
             }
         }
     }
@@ -207,7 +210,7 @@ fun Geometry.calculateBoundingBox(): LatLngBounds {
 }
 
 private const val InitialZoom = 12f
-private val InitialLatLng = LatLng(41.6523, -4.7245)
+private val InitialLatLng = LatLng(41.3851, 2.1734)
 
 @Preview(showBackground = true)
 @Composable
