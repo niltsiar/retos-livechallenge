@@ -7,7 +7,12 @@
   <application
     android:allowBackup="false"
     android:supportsRtl="true"
-    android:theme="@style/AppTheme">
+    android:theme="@style/AppTheme.NoActionBar">
+
+    <meta-data
+      android:name="com.google.android.geo.API_KEY"
+      android:value="${googleMapsKey}" />
+
     <activity
       android:name=".MainActivity"
       android:exported="true">
@@ -15,6 +20,7 @@
         <action android:name="android.intent.action.MAIN" />
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
-        </activity>
-    </application>
-</manifest> 
+    </activity>
+  </application>
+
+</manifest>
